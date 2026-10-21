@@ -523,15 +523,11 @@
     }
 
     function getCohortMetrics(item) {
-      const yearStart = new Date(2027, 0, 1);
       const startDate = parseDate(item.start);
       const endDate = parseDate(item.end);
 
-      const startDays = Math.floor((startDate - yearStart) / 86400000);
-      const startW = Math.max(1, Math.min(52, Math.floor(startDays / 7) + 1));
-
-      const endDays = Math.floor((endDate - yearStart) / 86400000);
-      const endW = Math.max(startW, Math.min(52, Math.floor(endDays / 7) + 1));
+      const startW = getWeekNumberFromDate(startDate);
+      const endW = getWeekNumberFromDate(endDate);
 
       const totalDays = Math.max(1, Math.round((endDate - startDate) / 86400000) + 1);
       const durationWeeks = Math.round((totalDays / 7) * 10) / 10;
@@ -540,11 +536,12 @@
     }
 
     function getWeekNumberFromDate(d) {
-      const yearStart = new Date(2027, 0, 1);
-      const diffDays = Math.floor((d - yearStart) / 86400000);
+      const firstMonday = new Date(2027, 0, 4);
+      const diffDays = Math.floor((d - firstMonday) / 86400000);
+      if (diffDays < 0) return 1;
       return Math.max(1, Math.min(52, Math.floor(diffDays / 7) + 1));
     }
-
+    
     function isPersonInvolved(item, person) {
       if (!item) return false;
       if (person === 'All') return true;
