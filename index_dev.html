@@ -528,9 +528,10 @@
 
       const startW = getWeekNumberFromDate(startDate);
       const endW = getWeekNumberFromDate(endDate);
-
+      
+      // Strictly calculate duration as full weeks between start week and end week
+      const durationWeeks = Math.max(1, (endW - startW) + 1);
       const totalDays = Math.max(1, Math.round((endDate - startDate) / 86400000) + 1);
-      const durationWeeks = Math.round((totalDays / 7) * 10) / 10;
 
       return { startW, endW, durationWeeks, totalDays, startDate, endDate };
     }
