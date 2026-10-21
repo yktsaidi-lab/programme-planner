@@ -530,9 +530,11 @@
       const startDays = Math.floor((startDate - yearStart) / 86400000);
       const startW = Math.max(1, Math.min(52, Math.floor(startDays / 7) + 1));
 
+      const endDays = Math.floor((endDate - yearStart) / 86400000);
+      const endW = Math.max(startW, Math.min(52, Math.floor(endDays / 7) + 1));
+
       const totalDays = Math.max(1, Math.round((endDate - startDate) / 86400000) + 1);
       const durationWeeks = Math.round((totalDays / 7) * 10) / 10;
-      const endW = Math.max(startW, Math.min(52, getWeekNumberFromDate(endDate)));
 
       return { startW, endW, durationWeeks, totalDays, startDate, endDate };
     }
