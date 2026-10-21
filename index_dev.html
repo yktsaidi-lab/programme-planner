@@ -49,6 +49,17 @@
       overflow-y: auto;
       padding: 20px;
       gap: 20px;
+      min-height: 0; /* Fixes flex children squishing issue */
+    }
+
+    /* Visual 1: Gantt Chart */
+    .gantt-card {
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      flex-shrink: 0; /* Prevents the card from collapsing */
     }
 
     /* Buttons & Inputs */
@@ -145,7 +156,7 @@
     }
     .version-strip label { font-weight: bold; color: #174ea6; }
 
-    /* Visual 1: Gantt Chart (Spacious View) */
+    /* Visual 1: Gantt Chart */
     .gantt-card {
       background: #ffffff;
       border: 1px solid #dadce0;
@@ -168,7 +179,7 @@
       display: grid;
       grid-template-columns: 80px 1fr;
       align-items: center;
-      padding: 8px 0;
+      padding: 6px 0;
       border-bottom: 1px solid #f1f3f4;
       min-width: 800px;
     }
@@ -179,7 +190,7 @@
     }
     .track-container {
       position: relative;
-      height: 34px; /* Increased height for better visibility */
+      height: 26px;
       background-color: #f1f3f4;
       border-radius: 4px;
     }
@@ -193,7 +204,7 @@
     .week-grid-lines div { border-right: 1px dashed #e8eaed; }
     .block {
       position: absolute;
-      height: 26px; /* Increased height */
+      height: 18px;
       top: 4px;
       color: #ffffff;
       display: flex;
@@ -405,7 +416,7 @@
       </div>
     </div>
 
-    <!-- MASTER SPREADSHEET DATATABLE -->
+    <!-- MASTER SPREADSHEET DATATABLE (REPLACES SIDEBAR) -->
     <div class="spreadsheet-card">
       <div class="section-title">
         <span>Master Cohort Spreadsheet Editor (Live Synchronized Data Grid)</span>
@@ -425,7 +436,9 @@
               <th style="width:90px;">Supp Sess/Wk</th>
             </tr>
           </thead>
-          <tbody id="spreadsheet-body"></tbody>
+          <tbody id="spreadsheet-body">
+            <!-- Dynamically populated -->
+          </tbody>
         </table>
       </div>
     </div>
@@ -538,9 +551,11 @@
       return isLead || isSupport;
     }
 
+    /* LOCALSTORAGE VERSION MANAGEMENT */
     function getSavedVersions() {
-      try { return JSON.parse(localStorage.getItem('programme_planner_versions') || '{}'); } 
-      catch (e) { return {}; }
+      try {
+        return JSON.parse(localStorage.getItem('programme_planner_versions') || '{}');
+      } catch (e) { return {}; }
     }
 
     function saveVersionsToStorage(versions) {
@@ -672,6 +687,7 @@
       }
     }
 
+    /* RENDER SPREADSHEET TABLE */
     function renderSpreadsheet() {
       const tbody = document.getElementById('spreadsheet-body');
       if (!tbody) return;
@@ -704,6 +720,7 @@
         tbody.appendChild(tr);
       });
 
+      // Spreadsheet Input Event Binding for Bidirectional Synchronization
       tbody.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('change', (e) => {
           const idx = parseInt(e.target.getAttribute('data-index'), 10);
@@ -715,7 +732,7 @@
             }
             cohorts[idx][key] = val;
             saveCurrentWorkingState();
-            renderAll();
+            renderAll(); // Updates Gantt, Charts, and Matrix instantly!
           }
         });
       });
@@ -763,6 +780,7 @@
           </div>
         `;
 
+        // Interactive Gantt Block Click Handling (Bidirectional quick-edit feature)
         block.onclick = () => {
           const newStart = prompt(`Update start date for ${item.id} (YYYY-MM-DD):`, item.start);
           if (newStart) {
