@@ -529,18 +529,18 @@
       const startW = getWeekNumberFromDate(startDate);
       const endW = getWeekNumberFromDate(endDate);
       
-      // Strictly calculate duration as full weeks between start week and end week
       const durationWeeks = Math.max(1, (endW - startW) + 1);
       const totalDays = Math.max(1, Math.round((endDate - startDate) / 86400000) + 1);
 
       return { startW, endW, durationWeeks, totalDays, startDate, endDate };
     }
-
+    
     function getWeekNumberFromDate(d) {
       const firstMonday = new Date(2027, 0, 4);
+      // Use Math.round or adjust day difference so mid-week/end-week days anchor correctly
       const diffDays = Math.floor((d - firstMonday) / 86400000);
       if (diffDays < 0) return 1;
-      return Math.max(1, Math.min(52, Math.floor(diffDays / 7) + 1));
+      return Math.max(1, Math.min(52, Math.floor((diffDays + 2) / 7) + 1));
     }
     
     function isPersonInvolved(item, person) {
