@@ -12,105 +12,46 @@
       background-color: #f8f9fa;
       color: #202124;
       display: flex;
+      flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
     
-    /* Sidebar Layout */
-    .sidebar {
-      width: 330px;
+    /* Top Bar / Global Controls Header */
+    .top-header {
       background: #ffffff;
-      border-right: 1px solid #dadce0;
-      padding: 16px;
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-    .sidebar h2 {
-      font-size: 15px;
-      margin-top: 0;
-      margin-bottom: 12px;
-      color: #1a73e8;
-    }
-
-    /* Version Manager Styles */
-    .version-card {
-      background: #e8f0fe;
-      border: 1px solid #aecbfa;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 16px;
-    }
-    .version-card h3 {
-      font-size: 13px;
-      margin: 0 0 8px 0;
-      color: #174ea6;
-    }
-    .version-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .version-row {
-      display: flex;
-      gap: 6px;
-    }
-
-    .cohort-card {
-      background: #f8f9fa;
-      border: 1px solid #dadce0;
-      border-radius: 6px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .cohort-card h4 {
-      margin: 0 0 6px 0;
-      font-size: 12px;
-      color: #202124;
+      border-bottom: 1px solid #dadce0;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
-    }
-    .form-group { margin-bottom: 6px; }
-    .form-group label {
-      display: block;
-      font-size: 10px;
-      font-weight: bold;
-      color: #5f6368;
-      margin-bottom: 2px;
-    }
-    .form-row { display: flex; gap: 6px; }
-    input[type="text"], input[type="date"], select, input[type="number"] {
-      width: 100%;
-      padding: 4px 6px;
-      font-size: 11px;
-      border: 1px solid #dadce0;
-      border-radius: 4px;
-    }
-
-    /* Main Content Layout */
-    .main-content {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    /* Viewpoint & Action Toggles */
-    .controls-card {
-      background: #ffffff;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 10px;
       align-items: center;
-      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 15px;
       flex-wrap: wrap;
     }
-    .toggles-group {
+    .top-header h1 {
+      font-size: 16px;
+      margin: 0;
+      color: #1a73e8;
+    }
+    .controls-group {
       display: flex;
       gap: 10px;
       align-items: center;
+      flex-wrap: wrap;
     }
+
+    /* Workspace Layout */
+    .workspace {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    /* Buttons & Inputs */
     .btn {
       padding: 6px 12px;
       border: 1px solid #dadce0;
@@ -128,26 +69,81 @@
       color: #ffffff;
       border-color: #1a73e8;
     }
-    .btn-pdf {
-      background-color: #34a853;
-      color: #ffffff;
-      border-color: #34a853;
-    }
+    .btn-pdf { background-color: #34a853; color: #ffffff; border-color: #34a853; }
     .btn-pdf:hover { background-color: #2d9247; }
-    .btn-danger {
-      background-color: #d93025;
-      color: #ffffff;
-      border-color: #d93025;
-    }
+    .btn-danger { background-color: #d93025; color: #ffffff; border-color: #d93025; }
     .btn-danger:hover { background-color: #a50e0e; }
+
+    input[type="text"], input[type="date"], select, input[type="number"] {
+      width: 100%;
+      padding: 4px 6px;
+      font-size: 11px;
+      border: 1px solid #dadce0;
+      border-radius: 4px;
+      background: #fff;
+    }
 
     .section-title {
       font-size: 14px;
       font-weight: bold;
       color: #3c4043;
       margin-top: 0;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    /* Spreadsheet Table Styles */
+    .spreadsheet-card {
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      padding: 16px;
+      flex-shrink: 0;
+    }
+    .table-container {
+      max-height: 240px;
+      overflow-y: auto;
+      border: 1px solid #e8eaed;
+      border-radius: 6px;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .data-table th {
+      background: #f1f3f4;
+      color: #3c4043;
+      padding: 8px;
+      border-bottom: 2px solid #dadce0;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      text-align: left;
+    }
+    .data-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #e8eaed;
+      vertical-align: middle;
+    }
+    .data-table tr:hover { background-color: #f8f9fa; }
+
+    /* Version Hub Control Strip */
+    .version-strip {
+      background: #e8f0fe;
+      border: 1px solid #aecbfa;
+      border-radius: 6px;
+      padding: 10px 14px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+    .version-strip label { font-weight: bold; color: #174ea6; }
 
     /* Visual 1: Gantt Chart */
     .gantt-card {
@@ -155,7 +151,6 @@
       border: 1px solid #dadce0;
       border-radius: 8px;
       padding: 16px;
-      margin-bottom: 24px;
       overflow-x: auto;
     }
     .weeks-header {
@@ -235,19 +230,7 @@
       text-align: left;
       pointer-events: none;
     }
-    .block .gantt-tooltip::after {
-      content: "";
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      margin-left: -4px;
-      border-width: 4px;
-      border-style: solid;
-      border-color: #202124 transparent transparent transparent;
-    }
-    .block:hover .gantt-tooltip {
-      display: block;
-    }
+    .block:hover .gantt-tooltip { display: block; }
 
     /* Visual 2: Workload Bars */
     .chart-card {
@@ -255,12 +238,11 @@
       border: 1px solid #dadce0;
       border-radius: 8px;
       padding: 16px;
-      margin-bottom: 24px;
     }
     .chart-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -279,7 +261,7 @@
       grid-template-columns: repeat(52, 1fr);
       gap: 2px;
       align-items: flex-end;
-      height: 80px;
+      height: 70px;
       border-bottom: 2px solid #dadce0;
       padding-bottom: 4px;
       min-width: 800px;
@@ -321,7 +303,6 @@
       border: 1px solid #dadce0;
       border-radius: 8px;
       padding: 16px;
-      margin-bottom: 24px;
     }
     .matrix-table {
       width: 100%;
@@ -346,11 +327,10 @@
       vertical-align: top;
       height: 28px;
     }
-
     .col-week { width: 140px; }
-    .col-gt   { width: 35%; }
-    .col-ge   { width: 20%; }
-    .col-gg   { width: 35%; }
+    .col-gt { width: 35%; }
+    .col-ge { width: 20%; }
+    .col-gg { width: 35%; }
     .week-label-cell {
       width: 140px;
       font-weight: bold;
@@ -365,125 +345,96 @@
       text-align: center;
       line-height: 28px;
     }
-    .lane-container {
-      display: flex;
-      width: 100%;
-      height: 100%;
-    }
-    .lane {
-      flex: 1;
-      height: 100%;
-      padding: 0 2px;
-    }
+    .lane-container { display: flex; width: 100%; height: 100%; }
+    .lane { flex: 1; height: 100%; padding: 0 2px; }
     .v-line {
-      width: 100%;
-      height: 100%;
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 10px;
-      padding: 2px 4px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      width: 100%; height: 100%;
+      color: #ffffff; font-weight: bold; font-size: 10px;
+      padding: 2px 4px; box-sizing: border-box;
+      display: flex; flex-direction: column; justify-content: center;
     }
     .v-line-gt { background-color: #1a73e8; }
     .v-line-ge { background-color: #1e8e3e; }
     .v-line-gg { background-color: #d93025; }
-    .v-start {
-      border-top-left-radius: 5px;
-      border-top-right-radius: 5px;
-    }
-    .v-end {
-      border-bottom-left-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-    .v-meta {
-      font-size: 9px;
-      font-weight: normal;
-      opacity: 0.95;
-    }
+    .v-start { border-top-left-radius: 5px; border-top-right-radius: 5px; }
+    .v-end { border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+    .v-meta { font-size: 9px; font-weight: normal; opacity: 0.95; }
 
     @media print {
-      body {
-        height: auto;
-        overflow: visible;
-        background: #ffffff;
-      }
-      .sidebar, .controls-card {
-        display: none !important;
-      }
-      .main-content {
-        padding: 0;
-        overflow: visible;
-      }
-      .matrix-card > div {
-        max-height: none !important;
-        overflow: visible !important;
-      }
-      .gantt-card, .chart-card, .matrix-card {
-        border: none;
-        padding: 0;
-        margin-bottom: 20px;
-        page-break-inside: avoid;
-      }
+      body { height: auto; overflow: visible; background: #ffffff; }
+      .top-header, .spreadsheet-card { display: none !important; }
+      .workspace { padding: 0; gap: 15px; overflow: visible; }
+      .gantt-card, .chart-card, .matrix-card { border: none; padding: 0; page-break-inside: avoid; }
     }
   </style>
 </head>
 <body>
 
-  <!-- SIDEBAR CONTROLS -->
-  <div class="sidebar">
-    <h2>Cohort Settings & Roles</h2>
+  <!-- TOP HEADER WITH GLOBAL CONTROLS & VIEWS -->
+  <div class="top-header">
+    <h1>2027 Interactive Programme Planner</h1>
+    <div class="controls-group">
+      <span style="font-size: 11px; font-weight: bold;">Filter View:</span>
+      <button class="btn active" id="btn-all">All Programmes</button>
+      <button class="btn" id="btn-dave">Dave's View</button>
+      <button class="btn" id="btn-jamie">Jamie's View</button>
+      <button class="btn btn-pdf" id="btn-pdf">📄 Download PDF</button>
+    </div>
+  </div>
 
-    <!-- VERSION MANAGER -->
-    <div class="version-card">
-      <h3>📁 Saved Versions</h3>
-      <div class="version-actions">
-        <div class="form-group">
-          <label>Load Saved Version</label>
-          <select id="version-select">
-            <option value="default">Default 2027 Schedule</option>
-          </select>
-        </div>
-        <div class="version-row">
-          <button class="btn btn-danger" id="btn-delete-version" style="font-size:10px; padding: 4px 8px;">Delete</button>
-        </div>
-        <hr style="border:0; border-top:1px solid #aecbfa; margin: 4px 0;">
-        <div class="form-group">
-          <label>Save Current Settings As:</label>
-          <div class="version-row">
-            <input type="text" id="version-name-input" placeholder="e.g. 2027 Plan v2">
-            <button class="btn btn-pdf" id="btn-save-version" style="font-size:10px; white-space:nowrap;">Save</button>
-          </div>
-        </div>
-        <div class="version-row" style="margin-top: 4px;">
-          <button class="btn" id="btn-export-json" style="font-size:10px; width:50%;">📥 Export File</button>
-          <button class="btn" id="btn-import-trigger" style="font-size:10px; width:50%;">📤 Import File</button>
-          <input type="file" id="file-import" accept=".json" style="display:none;">
-        </div>
+  <div class="workspace">
+
+    <!-- VERSION HUB STRIP -->
+    <div class="version-strip">
+      <div>
+        <label>📁 Saved Versions:</label>
+        <select id="version-select" style="display:inline-block; width:160px; margin-left:5px;">
+          <option value="default">Default 2027 Schedule</option>
+        </select>
+        <button class="btn btn-danger" id="btn-delete-version" style="padding:3px 8px; margin-left:4px;">Delete</button>
+      </div>
+      <div>
+        <label>Save As:</label>
+        <input type="text" id="version-name-input" placeholder="e.g. Plan v2" style="display:inline-block; width:130px; margin-left:5px;">
+        <button class="btn btn-pdf" id="btn-save-version" style="padding:3px 8px; margin-left:4px;">Save Version</button>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:6px;">
+        <button class="btn" id="btn-export-json" style="padding:4px 8px;">📥 Export JSON</button>
+        <button class="btn" id="btn-import-trigger" style="padding:4px 8px;">📤 Import JSON</button>
+        <input type="file" id="file-import" accept=".json" style="display:none;">
       </div>
     </div>
 
-    <div id="sidebar-controls"></div>
-  </div>
-
-  <!-- MAIN CONTENT AREA -->
-  <div class="main-content">
-    <!-- MASTER TOGGLES & ACTIONS -->
-    <div class="controls-card">
-      <div class="toggles-group">
-        <span style="font-size: 12px; font-weight: bold;">Viewpoint:</span>
-        <button class="btn active" id="btn-all">All Programmes</button>
-        <button class="btn" id="btn-dave">Dave's View</button>
-        <button class="btn" id="btn-jamie">Jamie's View</button>
+    <!-- MASTER SPREADSHEET DATATABLE (REPLACES SIDEBAR) -->
+    <div class="spreadsheet-card">
+      <div class="section-title">
+        <span>Master Cohort Spreadsheet Editor (Live Synchronized Data Grid)</span>
+        <span style="font-size:10px; font-weight:normal; color:#5f6368;">Edit any cell below to update timelines and graphs instantly</span>
       </div>
-      <button class="btn btn-pdf" id="btn-pdf">📄 Download PDF</button>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width:70px;">ID</th>
+              <th style="width:70px;">Prog</th>
+              <th style="width:130px;">Start Date</th>
+              <th style="width:130px;">End Date</th>
+              <th style="width:140px;">Lead</th>
+              <th style="width:90px;">Lead Sess/Wk</th>
+              <th style="width:130px;">Support</th>
+              <th style="width:90px;">Supp Sess/Wk</th>
+            </tr>
+          </thead>
+          <tbody id="spreadsheet-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- VISUAL 1: GANTT CHART -->
     <div class="gantt-card">
-      <div class="section-title">1. Master Gantt Timeline (52 Weeks)</div>
+      <div class="section-title">1. Master Gantt Timeline (52 Weeks) <span style="font-size:10px; font-weight:normal; color:#5f6368;">(Tip: Click any bar block to quick-edit its start date)</span></div>
       <div class="weeks-header" id="weeks-header">
         <div style="text-align: left;">Cohort</div>
       </div>
@@ -503,7 +454,7 @@
     <!-- VISUAL 3: CONTINUOUS VERTICAL MATRIX WITH FIXED SPLIT LANES -->
     <div class="matrix-card">
       <div class="section-title">3. 52-Week Vertical Programme Flow (Split Lanes & Seamless Lines)</div>
-      <div style="max-height: 650px; overflow-y: auto; border: 1px solid #dadce0; border-radius: 6px;">
+      <div style="max-height: 600px; overflow-y: auto; border: 1px solid #dadce0; border-radius: 6px;">
         <table class="matrix-table">
           <colgroup>
             <col class="col-week">
@@ -523,6 +474,7 @@
         </table>
       </div>
     </div>
+
   </div>
 
   <script>
@@ -559,22 +511,16 @@
       return monday;
     }
 
-    /* 
-      DYNAMIC DURATION & WEEK CALCULATORS 
-      Reads dates directly from cohort object variables supplied by the sidebar.
-    */
     function getCohortMetrics(item) {
       const yearStart = new Date(2027, 0, 1);
       const startDate = parseDate(item.start);
       const endDate = parseDate(item.end);
 
-      // Day offset from start of year
       const startDays = Math.floor((startDate - yearStart) / 86400000);
       const startW = Math.max(1, Math.min(52, Math.floor(startDays / 7) + 1));
 
-      // Calculate total active days including start and end days
       const totalDays = Math.max(1, Math.round((endDate - startDate) / 86400000) + 1);
-      const durationWeeks = Math.round((totalDays / 7) * 10) / 10; // e.g. 28 days = 4.0 weeks
+      const durationWeeks = Math.round((totalDays / 7) * 10) / 10;
       const endW = Math.max(startW, Math.min(52, getWeekNumberFromDate(endDate)));
 
       return { startW, endW, durationWeeks, totalDays, startDate, endDate };
@@ -594,13 +540,11 @@
       return isLead || isSupport;
     }
 
-    /* VERSION STORAGE & MANAGEMENT FUNCTIONS */
+    /* LOCALSTORAGE VERSION MANAGEMENT */
     function getSavedVersions() {
       try {
         return JSON.parse(localStorage.getItem('programme_planner_versions') || '{}');
-      } catch (e) {
-        return {};
-      }
+      } catch (e) { return {}; }
     }
 
     function saveVersionsToStorage(versions) {
@@ -610,10 +554,8 @@
     function updateVersionDropdown() {
       const select = document.getElementById('version-select');
       if (!select) return;
-
       const currentSelection = select.value;
       select.innerHTML = '<option value="default">Default 2027 Schedule</option>';
-      
       const versions = getSavedVersions();
       Object.keys(versions).forEach(name => {
         const opt = document.createElement('option');
@@ -621,7 +563,6 @@
         opt.textContent = name;
         select.appendChild(opt);
       });
-
       if (versions[currentSelection] || currentSelection === 'default') {
         select.value = currentSelection;
       }
@@ -634,11 +575,8 @@
     function loadActiveOrLastVersion() {
       const activeState = localStorage.getItem('programme_planner_active');
       if (activeState) {
-        try {
-          cohorts = JSON.parse(activeState);
-        } catch(e) {
-          cohorts = JSON.parse(JSON.stringify(defaultCohorts));
-        }
+        try { cohorts = JSON.parse(activeState); } 
+        catch(e) { cohorts = JSON.parse(JSON.stringify(defaultCohorts)); }
       }
     }
 
@@ -659,25 +597,17 @@
           cohorts = JSON.parse(JSON.stringify(defaultCohorts));
         } else {
           const versions = getSavedVersions();
-          if (versions[selected]) {
-            cohorts = JSON.parse(JSON.stringify(versions[selected]));
-          }
+          if (versions[selected]) cohorts = JSON.parse(JSON.stringify(versions[selected]));
         }
         saveCurrentWorkingState();
-        renderSidebar();
+        renderSpreadsheet();
         renderAll();
       });
 
       saveBtn.addEventListener('click', () => {
         const name = nameInput.value.trim();
-        if (!name) {
-          alert('Please enter a version name.');
-          return;
-        }
-        if (name === 'default') {
-          alert('Cannot overwrite the default template name.');
-          return;
-        }
+        if (!name) { alert('Please enter a version name.'); return; }
+        if (name === 'default') { alert('Cannot overwrite default.'); return; }
         const versions = getSavedVersions();
         versions[name] = cohorts;
         saveVersionsToStorage(versions);
@@ -689,11 +619,8 @@
 
       deleteBtn.addEventListener('click', () => {
         const selected = select.value;
-        if (selected === 'default') {
-          alert('Cannot delete the default template.');
-          return;
-        }
-        if (confirm(`Are you sure you want to delete "${selected}"?`)) {
+        if (selected === 'default') { alert('Cannot delete default template.'); return; }
+        if (confirm(`Delete version "${selected}"?`)) {
           const versions = getSavedVersions();
           delete versions[selected];
           saveVersionsToStorage(versions);
@@ -701,7 +628,7 @@
           cohorts = JSON.parse(JSON.stringify(defaultCohorts));
           saveCurrentWorkingState();
           updateVersionDropdown();
-          renderSidebar();
+          renderSpreadsheet();
           renderAll();
         }
       });
@@ -728,15 +655,11 @@
             if (Array.isArray(imported)) {
               cohorts = imported;
               saveCurrentWorkingState();
-              renderSidebar();
+              renderSpreadsheet();
               renderAll();
               alert('Schedule imported successfully!');
-            } else {
-              alert('Invalid file format. Must be a valid schedule JSON array.');
-            }
-          } catch(err) {
-            alert('Error reading JSON file.');
-          }
+            } else { alert('Invalid file format.'); }
+          } catch(err) { alert('Error reading JSON file.'); }
         };
         reader.readAsText(file);
       });
@@ -748,76 +671,46 @@
       header.innerHTML = '<div style="text-align: left;">Cohort</div>';
       for (let i = 1; i <= 52; i++) {
         const div = document.createElement('div');
-        if ((i - 1) % 4 === 0) {
-          div.textContent = 'W' + i;
-        } else {
-          div.textContent = '';
-        }
+        div.textContent = ((i - 1) % 4 === 0) ? 'W' + i : '';
         header.appendChild(div);
       }
     }
 
-    function renderSidebar() {
-      const container = document.getElementById('sidebar-controls');
-      if (!container) return;
-      container.innerHTML = '';
+    /* RENDER SPREADSHEET TABLE */
+    function renderSpreadsheet() {
+      const tbody = document.getElementById('spreadsheet-body');
+      if (!tbody) return;
+      tbody.innerHTML = '';
 
       cohorts.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'cohort-card';
-
-        const title = document.createElement('h4');
-        title.textContent = `${item.id} (${item.programme})`;
-        card.appendChild(title);
-
-        const row1 = document.createElement('div');
-        row1.className = 'form-group';
-        row1.innerHTML = `
-          <div class="form-row">
-            <div><label>Start</label><input type="date" value="${item.start}" data-index="${index}" data-key="start"></div>
-            <div><label>End</label><input type="date" value="${item.end}" data-index="${index}" data-key="end"></div>
-          </div>
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${item.id}</strong></td>
+          <td><span style="padding:2px 6px; background:#e8f0fe; color:#174ea6; border-radius:4px; font-weight:bold;">${item.programme}</span></td>
+          <td><input type="date" value="${item.start}" data-index="${index}" data-key="start"></td>
+          <td><input type="date" value="${item.end}" data-index="${index}" data-key="end"></td>
+          <td>
+            <select data-index="${index}" data-key="lead">
+              <option value="Dave" ${item.lead === 'Dave' ? 'selected' : ''}>Dave</option>
+              <option value="Jamie" ${item.lead === 'Jamie' ? 'selected' : ''}>Jamie</option>
+              <option value="Dave and Jamie" ${item.lead === 'Dave and Jamie' ? 'selected' : ''}>Dave & Jamie</option>
+            </select>
+          </td>
+          <td><input type="number" min="0" max="5" value="${item.leadSessions}" data-index="${index}" data-key="leadSessions"></td>
+          <td>
+            <select data-index="${index}" data-key="support">
+              <option value="None" ${item.support === 'None' ? 'selected' : ''}>None</option>
+              <option value="Dave" ${item.support === 'Dave' ? 'selected' : ''}>Dave</option>
+              <option value="Jamie" ${item.support === 'Jamie' ? 'selected' : ''}>Jamie</option>
+            </select>
+          </td>
+          <td><input type="number" min="0" max="5" value="${item.supportSessions}" data-index="${index}" data-key="supportSessions"></td>
         `;
-        card.appendChild(row1);
-
-        const row2 = document.createElement('div');
-        row2.className = 'form-group';
-        row2.innerHTML = `
-          <div class="form-row">
-            <div>
-              <label>Lead</label>
-              <select data-index="${index}" data-key="lead">
-                <option value="Dave" ${item.lead === 'Dave' ? 'selected' : ''}>Dave</option>
-                <option value="Jamie" ${item.lead === 'Jamie' ? 'selected' : ''}>Jamie</option>
-                <option value="Dave and Jamie" ${item.lead === 'Dave and Jamie' ? 'selected' : ''}>Dave & Jamie</option>
-              </select>
-            </div>
-            <div><label>Lead Sess/Wk</label><input type="number" min="0" max="5" value="${item.leadSessions}" data-index="${index}" data-key="leadSessions"></div>
-          </div>
-        `;
-        card.appendChild(row2);
-
-        const row3 = document.createElement('div');
-        row3.className = 'form-group';
-        row3.innerHTML = `
-          <div class="form-row">
-            <div>
-              <label>Support</label>
-              <select data-index="${index}" data-key="support">
-                <option value="None" ${item.support === 'None' ? 'selected' : ''}>None</option>
-                <option value="Dave" ${item.support === 'Dave' ? 'selected' : ''}>Dave</option>
-                <option value="Jamie" ${item.support === 'Jamie' ? 'selected' : ''}>Jamie</option>
-              </select>
-            </div>
-            <div><label>Supp Sess/Wk</label><input type="number" min="0" max="5" value="${item.supportSessions}" data-index="${index}" data-key="supportSessions"></div>
-          </div>
-        `;
-        card.appendChild(row3);
-
-        container.appendChild(card);
+        tbody.appendChild(tr);
       });
 
-      container.querySelectorAll('input, select').forEach(el => {
+      // Spreadsheet Input Event Binding for Bidirectional Synchronization
+      tbody.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('change', (e) => {
           const idx = parseInt(e.target.getAttribute('data-index'), 10);
           const key = e.target.getAttribute('data-key');
@@ -828,7 +721,7 @@
             }
             cohorts[idx][key] = val;
             saveCurrentWorkingState();
-            renderAll();
+            renderAll(); // Updates Gantt, Charts, and Matrix instantly!
           }
         });
       });
@@ -839,7 +732,7 @@
       if (!container) return;
       container.innerHTML = '';
 
-      cohorts.forEach(item => {
+      cohorts.forEach((item, index) => {
         if (!isPersonInvolved(item, activeFilter)) return;
 
         const row = document.createElement('div');
@@ -854,14 +747,10 @@
 
         const grid = document.createElement('div');
         grid.className = 'week-grid-lines';
-        for (let i = 0; i < 52; i++) {
-          grid.appendChild(document.createElement('div'));
-        }
+        for (let i = 0; i < 52; i++) grid.appendChild(document.createElement('div'));
         track.appendChild(grid);
 
-        // Calculate dynamic start week and exact duration from sidebar values
         const { startW, durationWeeks } = getCohortMetrics(item);
-
         const leftPercent = ((startW - 1) / 52) * 100;
         const widthPercent = (durationWeeks / 52) * 100;
 
@@ -880,10 +769,24 @@
           </div>
         `;
 
+        // Interactive Gantt Block Click Handling (Bidirectional quick-edit feature)
+        block.onclick = () => {
+          const newStart = prompt(`Update start date for ${item.id} (YYYY-MM-DD):`, item.start);
+          if (newStart) {
+            const newEnd = prompt(`Update end date for ${item.id} (YYYY-MM-DD):`, item.end);
+            if (newEnd) {
+              cohorts[index].start = newStart;
+              cohorts[index].end = newEnd;
+              saveCurrentWorkingState();
+              renderSpreadsheet();
+              renderAll();
+            }
+          }
+        };
+
         track.appendChild(block);
         row.appendChild(label);
         row.appendChild(track);
-
         container.appendChild(row);
       });
     }
@@ -895,11 +798,9 @@
       cohorts.forEach(item => {
         if (!item) return;
         const { startW, endW } = getCohortMetrics(item);
-
         let dSess = 0, jSess = 0;
         if (item.lead && item.lead.indexOf('Dave') !== -1) dSess += item.leadSessions;
         if (item.support === 'Dave') dSess += item.supportSessions;
-
         if (item.lead && item.lead.indexOf('Jamie') !== -1) jSess += item.leadSessions;
         if (item.support === 'Jamie') jSess += item.supportSessions;
 
@@ -940,7 +841,6 @@
       const tbody = document.getElementById('matrix-body');
       if (!tbody) return;
       tbody.innerHTML = '';
-
       const progs = ['GT', 'GE', 'GG'];
 
       for (let w = 1; w <= 52; w++) {
@@ -949,7 +849,6 @@
         const dateStr = monday.getDate().toString().padStart(2, '0');
 
         const tr = document.createElement('tr');
-
         const tdWeek = document.createElement('td');
         tdWeek.className = 'week-label-cell';
         tdWeek.innerHTML = `Week ${w} <span style="font-size:9px; color:#5f6368; font-weight:normal;">(${dateStr} ${monthStr})</span>`;
@@ -963,13 +862,11 @@
           });
 
           const td = document.createElement('td');
-
           if (matching.length === 0) {
             td.innerHTML = '<div class="empty-cell">&mdash;</div>';
           } else {
             const laneContainer = document.createElement('div');
             laneContainer.className = 'lane-container';
-
             const maxLanes = (prog === 'GT' || prog === 'GG') ? 2 : 1;
 
             for (let l = 0; l < maxLanes; l++) {
@@ -1001,7 +898,6 @@
                 if (isStart) {
                   line.innerHTML = `<div>${matchedItem.id}</div><div class="v-meta">${matchedItem.lead} (${sessStr})</div>`;
                 }
-
                 lane.appendChild(line);
               }
               laneContainer.appendChild(lane);
@@ -1010,7 +906,6 @@
           }
           tr.appendChild(td);
         });
-
         tbody.appendChild(tr);
       }
     }
@@ -1018,7 +913,7 @@
     function setupControls() {
       const setFilter = (filter, btn) => {
         activeFilter = filter;
-        document.querySelectorAll('.controls-card .btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.top-header .btn').forEach(b => b.classList.remove('active'));
         if (btn) btn.classList.add('active');
         renderAll();
       };
@@ -1031,10 +926,7 @@
       if (btnAll) btnAll.onclick = () => setFilter('All', btnAll);
       if (btnDave) btnDave.onclick = () => setFilter('Dave', btnDave);
       if (btnJamie) btnJamie.onclick = () => setFilter('Jamie', btnJamie);
-
-      if (btnPdf) {
-        btnPdf.onclick = () => { window.print(); };
-      }
+      if (btnPdf) btnPdf.onclick = () => { window.print(); };
     }
 
     function renderAll() {
@@ -1049,7 +941,7 @@
         initHeader();
         setupControls();
         setupVersionHandlers();
-        renderSidebar();
+        renderSpreadsheet();
         renderAll();
       } catch (err) {
         console.error("Initialization error:", err);
