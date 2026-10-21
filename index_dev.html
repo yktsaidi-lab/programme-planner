@@ -49,17 +49,7 @@
       overflow-y: auto;
       padding: 20px;
       gap: 20px;
-      min-height: 0; /* Fixes flex children squishing issue */
-    }
-
-    /* Visual 1: Gantt Chart */
-    .gantt-card {
-      background: #ffffff;
-      border: 1px solid #dadce0;
-      border-radius: 8px;
-      padding: 16px;
-      overflow-x: auto;
-      flex-shrink: 0; /* Prevents the card from collapsing */
+      min-height: 0;
     }
 
     /* Buttons & Inputs */
@@ -163,6 +153,7 @@
       border-radius: 8px;
       padding: 16px;
       overflow-x: auto;
+      flex-shrink: 0;
     }
     .weeks-header {
       display: grid;
@@ -179,7 +170,7 @@
       display: grid;
       grid-template-columns: 80px 1fr;
       align-items: center;
-      padding: 6px 0;
+      padding: 8px 0;
       border-bottom: 1px solid #f1f3f4;
       min-width: 800px;
     }
@@ -190,7 +181,7 @@
     }
     .track-container {
       position: relative;
-      height: 26px;
+      height: 34px;
       background-color: #f1f3f4;
       border-radius: 4px;
     }
@@ -204,7 +195,7 @@
     .week-grid-lines div { border-right: 1px dashed #e8eaed; }
     .block {
       position: absolute;
-      height: 18px;
+      height: 26px;
       top: 4px;
       color: #ffffff;
       display: flex;
@@ -221,7 +212,6 @@
     .bg-GE { background-color: #1e8e3e; }
     .bg-GG { background-color: #d93025; }
 
-    /* Gantt Tooltip */
     .block .gantt-tooltip {
       display: none;
       position: absolute;
@@ -243,17 +233,22 @@
     }
     .block:hover .gantt-tooltip { display: block; }
 
-    /* Visual 2: Workload Bars */
+    /* Visual 2: Workload Stacked Bars */
     .chart-card {
       background: #ffffff;
       border: 1px solid #dadce0;
       border-radius: 8px;
       padding: 16px;
     }
+    .chart-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
     .chart-title {
       font-size: 12px;
       font-weight: bold;
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -267,13 +262,24 @@
     }
     .badge-dave { background-color: #1a73e8; }
     .badge-jamie { background-color: #1e8e3e; }
+    
+    .chart-legend {
+      display: flex;
+      gap: 12px;
+      font-size: 10px;
+      color: #5f6368;
+    }
+    .legend-item { display: flex; align-items: center; gap: 4px; }
+    .legend-color { width: 10px; height: 10px; border-radius: 2px; }
+
     .chart-grid {
       display: grid;
       grid-template-columns: repeat(52, 1fr);
       gap: 2px;
       align-items: flex-end;
-      height: 70px;
+      height: 90px;
       border-bottom: 2px solid #dadce0;
+      position: relative;
       padding-bottom: 4px;
       min-width: 800px;
     }
@@ -285,7 +291,20 @@
       height: 100%;
       position: relative;
     }
-    .bar { width: 100%; border-radius: 2px 2px 0 0; }
+    .stacked-bar-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border-radius: 2px 2px 0 0;
+      overflow: hidden;
+    }
+    .bar-lead { background-color: #1a73e8; width: 100%; }
+    .bar-support { background-color: #8ab4f8; width: 100%; }
+    .bar-lead-jamie { background-color: #1e8e3e; width: 100%; }
+    .bar-support-jamie { background-color: #81c995; width: 100%; }
+    .bar-overflow { background-color: #d93025; width: 100%; } /* Over capacity highlight */
+
     .bar-col .tooltip {
       display: none;
       position: absolute;
@@ -294,19 +313,15 @@
       transform: translateX(-50%);
       background-color: #202124;
       color: #ffffff;
-      padding: 4px 6px;
+      padding: 6px 8px;
       border-radius: 4px;
       font-size: 9px;
       white-space: nowrap;
       z-index: 10;
+      line-height: 1.3;
+      text-align: left;
     }
     .bar-col:hover .tooltip { display: block; }
-    .load-0 { height: 2px; background-color: #e8eaed; }
-    .load-1 { height: 20%; background-color: #8ab4f8; }
-    .load-2 { height: 40%; background-color: #4285f4; }
-    .load-3 { height: 60%; background-color: #fbbc04; }
-    .load-4 { height: 80%; background-color: #ea4335; }
-    .load-5 { height: 100%; background-color: #b31412; }
 
     /* Visual 3: Continuous Vertical Matrix Table */
     .matrix-card {
@@ -381,7 +396,7 @@
 </head>
 <body>
 
-  <!-- TOP HEADER WITH GLOBAL CONTROLS & VIEWS -->
+  <!-- TOP HEADER -->
   <div class="top-header">
     <h1>2027 Interactive Programme Planner</h1>
     <div class="controls-group">
@@ -416,7 +431,7 @@
       </div>
     </div>
 
-    <!-- MASTER SPREADSHEET DATATABLE (REPLACES SIDEBAR) -->
+    <!-- MASTER SPREADSHEET DATATABLE -->
     <div class="spreadsheet-card">
       <div class="section-title">
         <span>Master Cohort Spreadsheet Editor (Live Synchronized Data Grid)</span>
@@ -436,9 +451,7 @@
               <th style="width:90px;">Supp Sess/Wk</th>
             </tr>
           </thead>
-          <tbody id="spreadsheet-body">
-            <!-- Dynamically populated -->
-          </tbody>
+          <tbody id="spreadsheet-body"></tbody>
         </table>
       </div>
     </div>
@@ -454,15 +467,28 @@
 
     <!-- VISUAL 2: WORKLOAD CHARTS -->
     <div class="chart-card">
-      <div class="section-title">2. Leader Weekly Session Workload</div>
-      <div class="chart-title">Dave <span class="badge badge-dave">Weekly Sessions</span></div>
+      <div class="section-title">2. Leader & Support Weekly Workload (Max Capacity: 5 Sessions/Wk)</div>
+      
+      <div class="chart-header-row">
+        <div class="chart-title">Dave <span class="badge badge-dave">Weekly Sessions</span></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-color" style="background:#1a73e8;"></div>Lead</div>
+          <div class="legend-item"><div class="legend-color" style="background:#8ab4f8;"></div>Support</div>
+        </div>
+      </div>
       <div class="chart-grid" id="dave-chart"></div>
       
-      <div class="chart-title" style="margin-top: 16px;">Jamie <span class="badge badge-jamie">Weekly Sessions</span></div>
+      <div class="chart-header-row" style="margin-top: 16px;">
+        <div class="chart-title">Jamie <span class="badge badge-jamie">Weekly Sessions</span></div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-color" style="background:#1e8e3e;"></div>Lead</div>
+          <div class="legend-item"><div class="legend-color" style="background:#81c995;"></div>Support</div>
+        </div>
+      </div>
       <div class="chart-grid" id="jamie-chart"></div>
     </div>
 
-    <!-- VISUAL 3: CONTINUOUS VERTICAL MATRIX WITH FIXED SPLIT LANES -->
+    <!-- VISUAL 3: CONTINUOUS VERTICAL MATRIX -->
     <div class="matrix-card">
       <div class="section-title">3. 52-Week Vertical Programme Flow (Split Lanes & Seamless Lines)</div>
       <div style="max-height: 600px; overflow-y: auto; border: 1px solid #dadce0; border-radius: 6px;">
@@ -490,6 +516,7 @@
 
   <script>
     let activeFilter = 'All';
+    const MAX_CAPACITY = 5; // Max sessions possible per week per person
 
     const defaultCohorts = [
       { id: 'GT1', programme: 'GT', start: '2027-02-15', end: '2027-03-12', lead: 'Dave', leadSessions: 3, support: 'Jamie', supportSessions: 0 },
@@ -522,6 +549,13 @@
       return monday;
     }
 
+    function getWeekNumberFromDate(d) {
+      const firstMonday = new Date(2027, 0, 4);
+      const diffDays = Math.floor((d - firstMonday) / 86400000);
+      if (diffDays < 0) return 1;
+      return Math.max(1, Math.min(52, Math.floor((diffDays + 2) / 7) + 1));
+    }
+
     function getCohortMetrics(item) {
       const startDate = parseDate(item.start);
       const endDate = parseDate(item.end);
@@ -534,15 +568,7 @@
 
       return { startW, endW, durationWeeks, totalDays, startDate, endDate };
     }
-    
-    function getWeekNumberFromDate(d) {
-      const firstMonday = new Date(2027, 0, 4);
-      // Use Math.round or adjust day difference so mid-week/end-week days anchor correctly
-      const diffDays = Math.floor((d - firstMonday) / 86400000);
-      if (diffDays < 0) return 1;
-      return Math.max(1, Math.min(52, Math.floor((diffDays + 2) / 7) + 1));
-    }
-    
+
     function isPersonInvolved(item, person) {
       if (!item) return false;
       if (person === 'All') return true;
@@ -551,11 +577,9 @@
       return isLead || isSupport;
     }
 
-    /* LOCALSTORAGE VERSION MANAGEMENT */
     function getSavedVersions() {
-      try {
-        return JSON.parse(localStorage.getItem('programme_planner_versions') || '{}');
-      } catch (e) { return {}; }
+      try { return JSON.parse(localStorage.getItem('programme_planner_versions') || '{}'); } 
+      catch (e) { return {}; }
     }
 
     function saveVersionsToStorage(versions) {
@@ -687,7 +711,6 @@
       }
     }
 
-    /* RENDER SPREADSHEET TABLE */
     function renderSpreadsheet() {
       const tbody = document.getElementById('spreadsheet-body');
       if (!tbody) return;
@@ -720,7 +743,6 @@
         tbody.appendChild(tr);
       });
 
-      // Spreadsheet Input Event Binding for Bidirectional Synchronization
       tbody.querySelectorAll('input, select').forEach(el => {
         el.addEventListener('change', (e) => {
           const idx = parseInt(e.target.getAttribute('data-index'), 10);
@@ -732,7 +754,7 @@
             }
             cohorts[idx][key] = val;
             saveCurrentWorkingState();
-            renderAll(); // Updates Gantt, Charts, and Matrix instantly!
+            renderAll();
           }
         });
       });
@@ -780,7 +802,6 @@
           </div>
         `;
 
-        // Interactive Gantt Block Click Handling (Bidirectional quick-edit feature)
         block.onclick = () => {
           const newStart = prompt(`Update start date for ${item.id} (YYYY-MM-DD):`, item.start);
           if (newStart) {
@@ -803,21 +824,28 @@
     }
 
     function renderCharts() {
-      const daveData = new Array(53).fill(0);
-      const jamieData = new Array(53).fill(0);
+      // Track separate lead and support sessions per week
+      const daveData = Array.from({ length: 53 }, () => ({ lead: 0, support: 0 }));
+      const jamieData = Array.from({ length: 53 }, () => ({ lead: 0, support: 0 }));
 
       cohorts.forEach(item => {
         if (!item) return;
         const { startW, endW } = getCohortMetrics(item);
-        let dSess = 0, jSess = 0;
-        if (item.lead && item.lead.indexOf('Dave') !== -1) dSess += item.leadSessions;
-        if (item.support === 'Dave') dSess += item.supportSessions;
-        if (item.lead && item.lead.indexOf('Jamie') !== -1) jSess += item.leadSessions;
-        if (item.support === 'Jamie') jSess += item.supportSessions;
+
+        let dLead = 0, dSupp = 0, jLead = 0, jSupp = 0;
+
+        if (item.lead) {
+          if (item.lead.indexOf('Dave') !== -1) dLead += item.leadSessions;
+          if (item.lead.indexOf('Jamie') !== -1) jLead += item.leadSessions;
+        }
+        if (item.support === 'Dave') dSupp += item.supportSessions;
+        if (item.support === 'Jamie') jSupp += item.supportSessions;
 
         for (let w = startW; w <= endW && w <= 52; w++) {
-          daveData[w] += dSess;
-          jamieData[w] += jSess;
+          daveData[w].lead += dLead;
+          daveData[w].support += dSupp;
+          jamieData[w].lead += jLead;
+          jamieData[w].support += jSupp;
         }
       });
 
@@ -832,18 +860,32 @@
         const monday = getMondayOfWeek(w);
         const dateLabel = `${monday.getDate().toString().padStart(2, '0')} ${months[monday.getMonth()]}`;
 
-        const dVal = daveData[w];
-        const dClass = dVal >= 5 ? 'load-5' : `load-${dVal}`;
+        // Dave Column
+        const d = daveData[w];
+        const dTotal = d.lead + d.support;
         const dCol = document.createElement('div');
         dCol.className = 'bar-col';
-        dCol.innerHTML = `<div class="bar ${dClass}"></div><div class="tooltip">W${w} (${dateLabel}): ${dVal} Sessions</div>`;
+        
+        let dHtml = `<div class="stacked-bar-container" style="height: ${Math.min(100, (dTotal / MAX_CAPACITY) * 100)}%;">`;
+        if (d.support > 0) dHtml += `<div class="bar-support" style="height: ${(d.support / dTotal) * 100}%;"></div>`;
+        if (d.lead > 0) dHtml += `<div class="bar-lead" style="height: ${(d.lead / dTotal) * 100}%;"></div>`;
+        dHtml += `</div>`;
+        dHtml += `<div class="tooltip">W${w} (${dateLabel})<br>Lead: ${d.lead}s | Support: ${d.support}s<br>Total: ${d.total || dTotal}/${MAX_CAPACITY} max</div>`;
+        dCol.innerHTML = dHtml;
         daveContainer.appendChild(dCol);
 
-        const jVal = jamieData[w];
-        const jClass = jVal >= 5 ? 'load-5' : `load-${jVal}`;
+        // Jamie Column
+        const j = jamieData[w];
+        const jTotal = j.lead + j.support;
         const jCol = document.createElement('div');
         jCol.className = 'bar-col';
-        jCol.innerHTML = `<div class="bar ${jClass}"></div><div class="tooltip">W${w} (${dateLabel}): ${jVal} Sessions</div>`;
+
+        let jHtml = `<div class="stacked-bar-container" style="height: ${Math.min(100, (jTotal / MAX_CAPACITY) * 100)}%;">`;
+        if (j.support > 0) jHtml += `<div class="bar-support-jamie" style="height: ${(j.support / jTotal) * 100}%;"></div>`;
+        if (j.lead > 0) jHtml += `<div class="bar-lead-jamie" style="height: ${(j.lead / jTotal) * 100}%;"></div>`;
+        jHtml += `</div>`;
+        jHtml += `<div class="tooltip">W${w} (${dateLabel})<br>Lead: ${j.lead}s | Support: ${j.support}s<br>Total: ${jTotal}/${MAX_CAPACITY} max</div>`;
+        jCol.innerHTML = jHtml;
         jamieContainer.appendChild(jCol);
       }
     }
